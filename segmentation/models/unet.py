@@ -12,7 +12,7 @@ from ..encoders.squeeze_extractor import *
 
 class UnetWithEncoder(torch.nn.Module):
 
-    def __init__(self, n_classes, pretrained_model: SqueezeExtractor, batch_norm=True):
+    def __init__(self, n_classes, pretrained_model: SqueezeExtractor, batch_norm=True, overlap_label=True):
         super(UnetWithEncoder, self).__init__()
         self.copy_feature_info = pretrained_model.get_copy_feature_info()
         self.features = pretrained_model.features
@@ -42,7 +42,10 @@ class UnetWithEncoder(torch.nn.Module):
 
         self.up_sampling4 = nn.ConvTranspose2d(channels, channels, kernel_size=4,
                                               stride=2, bias=False)
-        self.classifier = nn.Sequential(nn.Conv2d(channels, n_classes, kernel_size=1), nn.ReLU(inplace=True))
+        if overlap_label:
+            self.classifier = nn.Sequential(nn.Conv2d(channels, n_classes, kernel_size=1), nn.Sigmoid())
+        else:
+            self.classifier = nn.Sequential(nn.Conv2d(channels, n_classes, kernel_size=1), nn.ReLU(inplace=True))
         self._initialize_weights()
 
     def _get_last_out_channels(self, features):
