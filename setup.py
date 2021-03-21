@@ -16,16 +16,16 @@ def get_long_description():
     except Exception:
         return long_description
 
-setup(name="seg_torch",
+setup(name="torch_seg_models",
       version="0.1.7",
       description="Semantic Segmentation with Pytorch",
       long_description=get_long_description(),
       long_description_content_type='text/markdown',
-      author="Ian Yoo",
-      author_email='thyoostar@gmail.com',
+      author="Jobin k.V.",
+      author_email='kwjobin@gmail.com',
       platforms=["any"],
       license="MIT",
-      url="https://github.com/IanTaehoonYoo/semantic-segmentation-pytorch",
+      url="https://github.com/jobinkv/semantic-segmentation-pytorch.git",
       packages=find_packages(exclude=["segmentation/test/dataset"]),
       install_requires=[
             "torch>=1.5.0",
